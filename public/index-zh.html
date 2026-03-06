@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeFi 智能投顾 - The Synthesis Hackathon 2026</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      color: white;
+      padding: 40px 0;
+    }
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 5px 15px;
+      border-radius: 20px;
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .card h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .pricing-card {
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .pricing-card:hover {
+      border-color: #667eea;
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(102,126,234,0.3);
+    }
+    .pricing-card.featured {
+      border-color: #667eea;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .price {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+    .price span {
+      font-size: 0.4em;
+      opacity: 0.8;
+    }
+    .demo-section {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .demo-section h3 {
+      color: #333;
+      margin-bottom: 15px;
+    }
+    input, select, button {
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 1em;
+      margin: 5px 0;
+    }
+    input, select {
+      width: 100%;
+      max-width: 400px;
+    }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .result {
+      background: white;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 5px;
+      display: none;
+    }
+    .result.show {
+      display: block;
+    }
+    .advice-box {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+    .advice-box strong {
+      color: #667eea;
+    }
+    .status {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      margin: 5px 5px 5px 0;
+    }
+    .status.success { background: #d4edda; color: #155724; }
+    .status.warning { background: #fff3cd; color: #856404; }
+    .status.error { background: #f8d7da; color: #721c24; }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .feature {
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+    .feature h4 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+    code {
+      background: #f4f4f4;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+    }
+    .payment-status {
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+    .payment-status.show {
+      display: block;
+    }
+    .loader {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin: 10px 0;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🤖 DeFi 智能投顾</h1>
+      <p>基于 AI 的加密市场智能投顾系统</p>
+      <div class="badge">🏆 The Synthesis Hackathon 2026 参赛作品</div>
+      <div class="badge">⛓️ Powered by x402 + Base</div>
+      <div style="margin-top: 20px; font-size: 0.9em; opacity: 0.9;">
+        <p>👨‍💻 Created by <strong>宝哥 (Sebo)</strong></p>
+        <p>
+          <a href="https://twitter.com/sebo_luo" target="_blank" style="color: white; text-decoration: underline; margin: 0 10px;">
+            🐦 X: @sebo_luo
+          </a>
+        </p>
+      </div>
+    </header>
+
+    <!-- 功能演示 -->
+    <div class="card">
+      <h2>🎯 实时体验</h2>
+      <p style="color: #666; margin-bottom: 20px;">立即获取 AI 投资建议，体验 x402 微支付</p>
+      
+      <div class="demo-section">
+        <h3>步骤 1: 选择加密货币</h3>
+        <select id="coinSelect">
+          <option value="bitcoin">Bitcoin (BTC)</option>
+          <option value="ethereum">Ethereum (ETH)</option>
+          <option value="solana">Solana (SOL)</option>
+          <option value="binancecoin">BNB</option>
+          <option value="ripple">XRP</option>
+          <option value="cardano">Cardano (ADA)</option>
+        </select>
+
+        <h3 style="margin-top: 20px;">步骤 2: 支付 $0.50 USDC 获取建议</h3>
+        <button id="payBtn" onclick="createPayment()">💳 创建支付请求</button>
+        
+        <div id="paymentStatus" class="payment-status"></div>
+        
+        <div id="paymentForm" style="display: none; margin-top: 20px;">
+          <p><strong>支付金额:</strong> $0.50 USDC</p>
+          <p><strong>支付地址:</strong> <code id="payAddress"></code></p>
+          <p><strong>支付 ID:</strong> <code id="payId"></code></p>
+          <div style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #2196F3;">
+            <p style="margin: 0 0 10px 0;"><strong>💡 演示模式说明:</strong></p>
+            <p style="margin: 5px 0; font-size: 0.95em;">由于这是黑客松演示，我们使用模拟支付：</p>
+            <ol style="margin: 10px 0; padding-left: 20px; font-size: 0.9em;">
+              <li>复制下面的示例交易哈希（来自 Base 链真实交易）</li>
+              <li>粘贴到输入框</li>
+              <li>点击"确认支付"即可体验完整流程</li>
+            </ol>
+            <p style="margin: 10px 0; font-size: 0.85em; color: #666;">
+              示例：<code id="demoTxHash" style="word-break: break-all; background: #f0f0f0; padding: 5px; display: block; margin-top: 5px; cursor: pointer;" onclick="document.getElementById('txHash').value=this.textContent" title="点击复制">0x11e36400ac8b96a6e9c0a7a85e1af5d498699840c2e492e6b5f2b1ec9fc8de19</code>
+            </p>
+          </div>
+          <input type="text" id="txHash" placeholder="输入交易哈希 (0x 开头，66 位字符)" style="margin-top: 15px;" value="0x11e36400ac8b96a6e9c0a7a85e1af5d498699840c2e492e6b5f2b1ec9fc8de19">
+          <button onclick="verifyPayment()" style="margin-top: 10px;">✅ 确认支付</button>
+        </div>
+
+        <h3 style="margin-top: 20px;">步骤 3: 获取投资建议</h3>
+        <button id="adviceBtn" onclick="getAdvice()" disabled>📊 获取 AI 投资建议</button>
+        
+        <div id="result" class="result">
+          <div id="loading" style="display: none;">
+            <div class="loader"></div>
+            <p>正在分析市场数据...</p>
+          </div>
+          <div id="adviceContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 定价方案 -->
+    <div class="card">
+      <h2>💰 定价方案</h2>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>单次咨询</h3>
+          <div class="price">$0.50<span>/次</span></div>
+          <p>适合偶尔咨询</p>
+          <p style="margin-top: 10px;">✅ 一次投资问题解答</p>
+          <p>✅ 技术分析</p>
+          <p>✅ 市场情绪</p>
+        </div>
+        <div class="pricing-card featured">
+          <h3>🔥 日通行证</h3>
+          <div class="price">$5<span>/天</span></div>
+          <p>适合日内交易者</p>
+          <p style="margin-top: 10px;">✅ 24 小时无限咨询</p>
+          <p>✅ 优先支持</p>
+          <p>✅ 实时提醒</p>
+        </div>
+        <div class="pricing-card">
+          <h3>月订阅</h3>
+          <div class="price">$50<span>/月</span></div>
+          <p>适合长期投资者</p>
+          <p style="margin-top: 10px;">✅ 30 天无限咨询</p>
+          <p>✅ 优先支持</p>
+          <p>✅ 定制报告</p>
+        </div>
+        <div class="pricing-card">
+          <h3>API 访问</h3>
+          <div class="price">$100<span>/月</span></div>
+          <p>适合开发者</p>
+          <p style="margin-top: 10px;">✅ 10,000 次 API 调用</p>
+          <p>✅ 完整文档</p>
+          <p>✅ 技术支持</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 功能特性 -->
+    <div class="card">
+      <h2>✨ 核心功能</h2>
+      <div class="features">
+        <div class="feature">
+          <h4>📊 技术分析</h4>
+          <p>整合 29+ 技术指标：RSI、MACD、布林带、一目均衡表等</p>
+        </div>
+        <div class="feature">
+          <h4>📰 情绪分析</h4>
+          <p>实时分析加密媒体新闻和社交媒体情绪</p>
+        </div>
+        <div class="feature">
+          <h4>🔗 链上数据</h4>
+          <p>追踪 DeFi 协议 TVL、大额转账、巨鲸活动</p>
+        </div>
+        <div class="feature">
+          <h4>💰 x402 支付</h4>
+          <p>基于 Base 链的微支付，无需注册，即时访问</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- API 文档 -->
+    <div class="card">
+      <h2>📚 API 文档</h2>
+      <p style="color: #666; margin-bottom: 15px;">开发者可以通过 API 集成我们的服务</p>
+      <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; overflow-x: auto;">
+        <pre style="margin: 0;"><code># 获取投资建议
+curl https://defi.gekankan.com/api/advice/bitcoin \
+  -H "X-Payment: x402 &lt;payment_id&gt;"
+
+# 创建支付
+curl -X POST https://defi.gekankan.com/api/payment/create \
+  -H "Content-Type: application/json" \
+  -d '{"serviceType":"singleConsultation"}'
+
+# 免费接口
+curl https://defi.gekankan.com/api/price/ethereum
+curl https://defi.gekankan.com/api/top?limit=10
+curl https://defi.gekankan.com/api/defi</code></pre>
+      </div>
+    </div>
+
+    <footer style="text-align: center; color: white; padding: 40px 0; opacity: 0.8;">
+      <p>🏗️ Built with ❤️ for The Synthesis Hackathon 2026</p>
+      <p style="margin-top: 10px;">
+        <a href="/blockchain-demo.html" style="color: white; margin: 0 10px; text-decoration: underline;">⛓️ 区块链验证演示</a> •
+        <a href="https://github.com" style="color: white; margin: 0 10px;">GitHub</a> •
+        <a href="https://x402.org" style="color: white; margin: 0 10px;">x402 Protocol</a> •
+        <a href="https://base.org" style="color: white; margin: 0 10px;">Base Network</a>
+      </p>
+      <p style="margin-top: 15px; font-size: 0.9em;">
+        ⚠️ 本建议仅供参考，不构成投资建议。加密货币投资风险极高，请谨慎决策。
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    let currentPaymentId = null;
+    let currentServiceType = 'singleConsultation';
+
+    async function createPayment() {
+      const btn = document.getElementById('payBtn');
+      btn.disabled = true;
+      btn.textContent = '创建中...';
+
+      try {
+        const response = await fetch('/api/payment/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            serviceType: currentServiceType,
+            userId: 'demo-user-' + Date.now()
+          })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          currentPaymentId = data.paymentRequest.paymentId;
+          
+          document.getElementById('payAddress').textContent = data.paymentRequest.paymentAddress;
+          document.getElementById('payId').textContent = currentPaymentId;
+          document.getElementById('paymentForm').style.display = 'block';
+          
+          document.getElementById('paymentStatus').className = 'payment-status show status success';
+          document.getElementById('paymentStatus').innerHTML = '✅ 支付请求已创建，请完成支付';
+        } else {
+          throw new Error(data.error);
+        }
+      } catch (error) {
+        document.getElementById('paymentStatus').className = 'payment-status show status error';
+        document.getElementById('paymentStatus').innerHTML = '❌ 创建失败：' + error.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '💳 创建支付请求';
+      }
+    }
+
+    async function verifyPayment() {
+      const txHash = document.getElementById('txHash').value.trim();
+      if (!txHash) {
+        alert('请输入交易哈希');
+        return;
+      }
+
+      const btn = event.target;
+      btn.disabled = true;
+      btn.textContent = '验证中...';
+
+      try {
+        const response = await fetch('/api/payment/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            paymentId: currentPaymentId,
+            txHash: txHash
+          })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          document.getElementById('paymentStatus').className = 'payment-status show status success';
+          document.getElementById('paymentStatus').innerHTML = '✅ 支付成功！现在可以获取投资建议了';
+          document.getElementById('adviceBtn').disabled = false;
+          document.getElementById('paymentForm').style.display = 'none';
+        } else {
+          throw new Error(data.error);
+        }
+      } catch (error) {
+        document.getElementById('paymentStatus').className = 'payment-status show status error';
+        document.getElementById('paymentStatus').innerHTML = '❌ 验证失败：' + error.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '✅ 确认支付';
+      }
+    }
+
+    async function getAdvice() {
+      const coin = document.getElementById('coinSelect').value;
+      const btn = document.getElementById('adviceBtn');
+      const resultDiv = document.getElementById('result');
+      const loadingDiv = document.getElementById('loading');
+      const contentDiv = document.getElementById('adviceContent');
+
+      btn.disabled = true;
+      resultDiv.className = 'result show';
+      loadingDiv.style.display = 'block';
+      contentDiv.innerHTML = '';
+
+      try {
+        const response = await fetch(`/api/advice/${coin}`, {
+          headers: {
+            'X-Payment': `x402 ${currentPaymentId}`
+          }
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          contentDiv.innerHTML = `
+            <div class="advice-box">
+              <h3 style="color: #667eea; margin-bottom: 15px;">📊 ${coin.toUpperCase()} 投资分析</h3>
+              
+              <p><strong>💰 当前价格:</strong> $${data.currentPrice.toLocaleString()}</p>
+              <p><strong>📈 24h 涨跌:</strong> ${data.change24h > 0 ? '+' : ''}${data.change24h.toFixed(2)}%</p>
+              <p><strong>💎 市值:</strong> $${(data.marketCap / 1e12).toFixed(2)}T</p>
+              <p><strong>📊 24h 成交量:</strong> $${(data.volume24h / 1e9).toFixed(2)}B</p>
+              
+              <div style="margin: 20px 0; padding: 15px; background: ${getRecommendationColor(data.recommendation.action)}; border-radius: 8px;">
+                <p style="font-size: 1.2em; margin: 0;"><strong>🎯 建议：${data.recommendation.text}</strong></p>
+                <p style="margin: 5px 0 0 0;">方向：${data.recommendation.action} | 置信度：${data.recommendation.confidence}</p>
+              </div>
+              
+              <p><strong>📝 分析理由:</strong></p>
+              <p style="margin: 10px 0;">${data.recommendation.reasoning}</p>
+              
+              <p><strong>🌐 市场情绪:</strong> ${data.marketSentiment.sentiment}</p>
+              <p><strong>💰 DeFi TVL:</strong> ${data.defiOverview.totalTVL}</p>
+              
+              <p style="margin-top: 20px; color: #666; font-size: 0.9em;">
+                ⚠️ 本建议仅供参考，不构成投资建议。加密货币投资风险极高，请谨慎决策。
+              </p>
+            </div>
+          `;
+        } else {
+          throw new Error(data.error);
+        }
+      } catch (error) {
+        contentDiv.innerHTML = `<div class="status error">❌ 获取失败：${error.message}</div>`;
+      } finally {
+        loadingDiv.style.display = 'none';
+        btn.disabled = false;
+      }
+    }
+
+    function getRecommendationColor(action) {
+      if (action === 'BUY') return '#d4edda';
+      if (action === 'SELL') return '#f8d7da';
+      return '#fff3cd';
+    }
+  </script>
+</body>
+</html>

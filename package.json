@@ -1,0 +1,32 @@
+{
+  "name": "defi-advisor",
+  "version": "1.0.0",
+  "description": "> 基于 RAG 的加密市场智能投顾系统   > 参加 **The Synthesis Hackathon 2026**",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "node src/api-server.js",
+    "test": "node src/advisor.js bitcoin",
+    "test-data": "node src/data-fetcher.js",
+    "test-payment": "node src/x402-payment.js"
+  },
+  "type": "module",
+  "keywords": [
+    "defi",
+    "crypto",
+    "investment",
+    "x402",
+    "payment",
+    "base"
+  ],
+  "author": "小黑 + Sebo",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^9.6.0",
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2"
+  }
+}

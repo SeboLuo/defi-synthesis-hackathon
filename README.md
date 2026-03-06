@@ -1,11 +1,13 @@
 # DeFi 智能投顾 Agent 🤖💰
 
-> 基于 RAG 的加密市场智能投顾系统  
-> 参加 **The Synthesis Hackathon 2026**
+> 基于 AI 的加密市场智能投顾系统  
+> 参加 **The Synthesis Hackathon 2026**  
+> **🌐 在线演示**: https://defi.gekankan.com
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Base](https://img.shields.io/badge/Chain-Base-0052FF)](https://base.org)
-[![ERC-8004](https://img.shields.io/badge/Identity-ERC--8004-purple)](https://eips.ethereum.org/EIPS/eip-8004)
+[![x402](https://img.shields.io/badge/Payment-x402-purple)](https://x402.org)
+[![Deployed](https://img.shields.io/badge/Status-Production-green)](https://defi.gekankan.com)
 
 ---
 
@@ -16,29 +18,29 @@
 - 📊 **链上数据** - DeFi 协议、交易量、TVL 实时追踪
 - 📰 **新闻情绪** - 加密媒体 + 社交媒体情绪分析
 - 📈 **技术分析** - 29+ 指标 (BB, Ichimoku, RSI, MACD)
-- 💰 **x402 支付** - 按次付费获取投资建议 ($0.10-1.00/次)
+- 💰 **x402 支付** - 按次付费获取投资建议 ($0.50/次)
 
 ---
 
 ## ✨ 核心功能
 
 ### 1. 智能投资咨询
-- 基于 RAG 的知识库问答
 - 实时市场数据分析
 - 多源信息融合（链上 + 新闻 + 技术面）
 - 投资建议置信度评分
+- 持有观望/买入/卖出建议
 
 ### 2. x402 微支付
-- 按次付费咨询
-- 订阅制无限访问
-- API 访问授权
-- 自动收入分配
+- 按次付费咨询 ($0.50 USDC)
+- 订阅制无限访问 ($5/天, $50/月)
+- API 访问授权 ($100/月)
+- Base 链上支付，无需注册
 
 ### 3. 多渠道访问
-- Web Dashboard
-- Telegram Bot
-- REST API
-- (未来) Discord Bot
+- ✅ **Web Dashboard** - https://defi.gekankan.com
+- ✅ **REST API** - 开发者友好
+- ⏳ Telegram Bot (开发中)
+- ⏳ Discord Bot (计划中)
 
 ---
 

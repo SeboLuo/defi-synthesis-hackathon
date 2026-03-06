@@ -1,0 +1,529 @@
+/**
+ * 多语言支持 (i18n)
+ * 支持：中文、English、한국어、日本語、Français
+ */
+
+const translations = {
+  'zh-CN': {
+    'title': 'DeFi 智能投顾 - The Synthesis Hackathon 2026',
+    'subtitle': '基于 AI 的加密市场智能投顾系统',
+    'hackathon_badge': '🏆 The Synthesis Hackathon 2026 参赛作品',
+    'tech_badge': '⛓️ Powered by x402 + Base',
+    'creator': '👨‍💻 Created by',
+    'twitter_handle': '🐦 X: @sebo_luo',
+    'demo_title': '🎯 实时体验',
+    'demo_desc': '立即获取 AI 投资建议，体验 x402 微支付',
+    'step1': '步骤 1: 选择加密货币',
+    'step2': '步骤 2: 支付 $0.50 USDC 获取建议',
+    'step3': '步骤 3: 获取投资建议',
+    'pay_btn': '💳 创建支付请求',
+    'pay_amount': '支付金额:',
+    'pay_address': '支付地址:',
+    'pay_id': '支付 ID:',
+    'demo_mode_title': '💡 演示模式说明',
+    'demo_mode_desc': '由于这是黑客松演示，我们使用模拟支付：',
+    'demo_mode_step1': '复制下面的示例交易哈希（来自 Base 链真实交易）',
+    'demo_mode_step2': '粘贴到输入框',
+    'demo_mode_step3': '点击"确认支付"即可体验完整流程',
+    'demo_tx_label': '示例：',
+    'tx_placeholder': '输入交易哈希 (0x 开头，66 位字符)',
+    'verify_btn': '✅ 确认支付',
+    'advice_btn': '📊 获取 AI 投资建议',
+    'loading': '正在分析市场数据...',
+    'pricing_title': '💰 定价方案',
+    'single_title': '单次咨询',
+    'single_desc': '适合偶尔咨询',
+    'single_feature1': '一次投资问题解答',
+    'single_feature2': '技术分析',
+    'single_feature3': '市场情绪',
+    'per_time': '/次',
+    'daypass_title': '🔥 日通行证',
+    'daypass_desc': '适合日内交易者',
+    'daypass_feature1': '24 小时无限咨询',
+    'daypass_feature2': '优先支持',
+    'daypass_feature3': '实时提醒',
+    'per_day': '/天',
+    'monthly_title': '月订阅',
+    'monthly_desc': '适合长期投资者',
+    'monthly_feature1': '30 天无限咨询',
+    'monthly_feature2': '优先支持',
+    'monthly_feature3': '定制报告',
+    'per_month': '/月',
+    'api_title': 'API 访问',
+    'api_desc': '适合开发者',
+    'api_feature1': '10,000 次 API 调用',
+    'api_feature2': '完整文档',
+    'api_feature3': '技术支持',
+    'features_title': '✨ 核心功能',
+    'feature_tech_title': '📊 技术分析',
+    'feature_tech_desc': '整合 29+ 技术指标：RSI、MACD、布林带、一目均衡表等',
+    'feature_sentiment_title': '📰 情绪分析',
+    'feature_sentiment_desc': '实时分析加密媒体新闻和社交媒体情绪',
+    'feature_onchain_title': '🔗 链上数据',
+    'feature_onchain_desc': '追踪 DeFi 协议 TVL、大额转账、巨鲸活动',
+    'feature_payment_title': '💰 x402 支付',
+    'feature_payment_desc': '基于 Base 链的微支付，无需注册，即时访问',
+    'api_docs_title': '📚 API 文档',
+    'api_docs_desc': '开发者可以通过 API 集成我们的服务',
+    'api_example_title': '示例代码',
+    'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+    'blockchain_demo': '⛓️ 区块链验证演示',
+    'disclaimer': '⚠️ 本建议仅供参考，不构成投资建议。加密货币投资风险极高，请谨慎决策。',
+    'payment_created': '✅ 支付请求已创建，请完成支付',
+    'payment_success': '✅ 支付成功！现在可以获取投资建议了',
+    'payment_failed': '❌ 创建失败：',
+    'verify_failed': '❌ 验证失败：',
+    'advice_failed': '❌ 获取失败：',
+    'input_tx_required': '请输入交易哈希',
+    'analysis_title': '投资分析',
+    'current_price': '💰 当前价格:',
+    'change_24h': '📈 24h 涨跌:',
+    'market_cap': '💎 市值:',
+    'volume_24h': '📊 24h 成交量:',
+    'recommendation': '🎯 建议：',
+    'direction': '方向:',
+    'confidence': '置信度:',
+    'reasoning': '📝 分析理由:',
+    'market_sentiment': '🌐 市场情绪:',
+    'defi_tvl': '💰 DeFi TVL:',
+    'language': '🌐 语言',
+    'select_coin': '选择加密货币',
+    'btc': 'Bitcoin (BTC)',
+    'eth': 'Ethereum (ETH)',
+    'sol': 'Solana (SOL)',
+    'bnb': 'BNB',
+    'xrp': 'XRP',
+    'ada': 'Cardano (ADA)'
+  },
+  
+  'en-US': {
+    'title': 'DeFi AI Advisor - The Synthesis Hackathon 2026',
+    'subtitle': 'AI-Powered Cryptocurrency Investment Advisory System',
+    'hackathon_badge': '🏆 The Synthesis Hackathon 2026 Entry',
+    'tech_badge': '⛓️ Powered by x402 + Base',
+    'creator': '👨‍💻 Created by',
+    'twitter_handle': '🐦 X: @sebo_luo',
+    'demo_title': '🎯 Live Demo',
+    'demo_desc': 'Get AI investment advice instantly with x402 micro-payment',
+    'step1': 'Step 1: Select Cryptocurrency',
+    'step2': 'Step 2: Pay $0.50 USDC for Advice',
+    'step3': 'Step 3: Get Investment Advice',
+    'pay_btn': '💳 Create Payment Request',
+    'pay_amount': 'Amount:',
+    'pay_address': 'Payment Address:',
+    'pay_id': 'Payment ID:',
+    'demo_mode_title': '💡 Demo Mode',
+    'demo_mode_desc': 'This is a hackathon demo using simulated payment:',
+    'demo_mode_step1': 'Copy the sample transaction hash below (from Base chain)',
+    'demo_mode_step2': 'Paste it into the input field',
+    'demo_mode_step3': 'Click "Verify Payment" to experience the full flow',
+    'demo_tx_label': 'Example:',
+    'tx_placeholder': 'Enter transaction hash (0x prefix, 66 chars)',
+    'verify_btn': '✅ Verify Payment',
+    'advice_btn': '📊 Get AI Investment Advice',
+    'loading': 'Analyzing market data...',
+    'pricing_title': '💰 Pricing Plans',
+    'single_title': 'Single Consultation',
+    'single_desc': 'For occasional users',
+    'single_feature1': 'One investment question',
+    'single_feature2': 'Technical analysis',
+    'single_feature3': 'Market sentiment',
+    'per_time': '/time',
+    'daypass_title': '🔥 Day Pass',
+    'daypass_desc': 'For day traders',
+    'daypass_feature1': '24h unlimited consultations',
+    'daypass_feature2': 'Priority support',
+    'daypass_feature3': 'Real-time alerts',
+    'per_day': '/day',
+    'monthly_title': 'Monthly Subscription',
+    'monthly_desc': 'For long-term investors',
+    'monthly_feature1': '30 days unlimited',
+    'monthly_feature2': 'Priority support',
+    'monthly_feature3': 'Custom reports',
+    'per_month': '/month',
+    'api_title': 'API Access',
+    'api_desc': 'For developers',
+    'api_feature1': '10,000 API calls/month',
+    'api_feature2': 'Full documentation',
+    'api_feature3': 'Technical support',
+    'features_title': '✨ Core Features',
+    'feature_tech_title': '📊 Technical Analysis',
+    'feature_tech_desc': '29+ indicators: RSI, MACD, Bollinger Bands, Ichimoku Cloud',
+    'feature_sentiment_title': '📰 Sentiment Analysis',
+    'feature_sentiment_desc': 'Real-time crypto news and social media sentiment',
+    'feature_onchain_title': '🔗 On-Chain Data',
+    'feature_onchain_desc': 'Track DeFi TVL, large transfers, whale activity',
+    'feature_payment_title': '💰 x402 Payment',
+    'feature_payment_desc': 'Base chain micro-payment, no registration, instant access',
+    'api_docs_title': '📚 API Documentation',
+    'api_docs_desc': 'Developers can integrate our service via API',
+    'api_example_title': 'Example Code',
+    'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+    'blockchain_demo': '⛓️ Blockchain Verification Demo',
+    'disclaimer': '⚠️ This is for informational purposes only, not investment advice. Cryptocurrency trading involves high risk.',
+    'payment_created': '✅ Payment request created, please complete payment',
+    'payment_success': '✅ Payment successful! You can now get investment advice',
+    'payment_failed': '❌ Failed: ',
+    'verify_failed': '❌ Verification failed: ',
+    'advice_failed': '❌ Failed to get advice: ',
+    'input_tx_required': 'Please enter transaction hash',
+    'analysis_title': 'Investment Analysis',
+    'current_price': '💰 Current Price:',
+    'change_24h': '📈 24h Change:',
+    'market_cap': '💎 Market Cap:',
+    'volume_24h': '📊 24h Volume:',
+    'recommendation': '🎯 Recommendation:',
+    'direction': 'Direction:',
+    'confidence': 'Confidence:',
+    'reasoning': '📝 Analysis:',
+    'market_sentiment': '🌐 Market Sentiment:',
+    'defi_tvl': '💰 DeFi TVL:',
+    'language': '🌐 Language',
+    'select_coin': 'Select Cryptocurrency',
+    'btc': 'Bitcoin (BTC)',
+    'eth': 'Ethereum (ETH)',
+    'sol': 'Solana (SOL)',
+    'bnb': 'BNB',
+    'xrp': 'XRP',
+    'ada': 'Cardano (ADA)'
+  },
+  
+  'ko-KR': {
+    'title': 'DeFi AI 투자 고문 - The Synthesis Hackathon 2026',
+    'subtitle': 'AI 기반 암호화폐 투자 자문 시스템',
+    'hackathon_badge': '🏆 The Synthesis Hackathon 2026 출품작',
+    'tech_badge': '⛓️ Powered by x402 + Base',
+    'creator': '👨‍💻 Created by',
+    'twitter_handle': '🐦 X: @sebo_luo',
+    'demo_title': '🎯 실시간 데모',
+    'demo_desc': 'x402 마이크로페이먼트로 AI 투자 조언 받기',
+    'step1': '1 단계: 암호화폐 선택',
+    'step2': '2 단계: $0.50 USDC 결제',
+    'step3': '3 단계: 투자 조언 받기',
+    'pay_btn': '💳 결제 요청 생성',
+    'pay_amount': '금액:',
+    'pay_address': '결제 주소:',
+    'pay_id': '결제 ID:',
+    'demo_mode_title': '💡 데모 모드',
+    'demo_mode_desc': '해커톤 데모를 위해 시뮬레이션 결제를 사용합니다:',
+    'demo_mode_step1': '아래 샘플 트랜잭션 해시 복사 (Base 체인)',
+    'demo_mode_step2': '입력 필드에 붙여넣기',
+    'demo_mode_step3': '"결제 확인" 클릭하여 전체 경험',
+    'demo_tx_label': '예시:',
+    'tx_placeholder': '트랜잭션 해시 입력 (0x 접두사, 66 자)',
+    'verify_btn': '✅ 결제 확인',
+    'advice_btn': '📊 AI 투자 조언 받기',
+    'loading': '시장 데이터 분석 중...',
+    'pricing_title': '💰 가격 정책',
+    'single_title': '단일 상담',
+    'single_desc': '가끔 사용하는 사용자용',
+    'single_feature1': '투자 질문 1 회',
+    'single_feature2': '기술적 분석',
+    'single_feature3': '시장 심리',
+    'per_time': '/회',
+    'daypass_title': '🔥 일일 패스',
+    'daypass_desc': '데이 트레이더용',
+    'daypass_feature1': '24 시간 무제한 상담',
+    'daypass_feature2': '우선 지원',
+    'daypass_feature3': '실시간 알림',
+    'per_day': '/일',
+    'monthly_title': '월간 구독',
+    'monthly_desc': '장기 투자자용',
+    'monthly_feature1': '30 일 무제한',
+    'monthly_feature2': '우선 지원',
+    'monthly_feature3': '맞춤 보고서',
+    'per_month': '/월',
+    'api_title': 'API 액세스',
+    'api_desc': '개발자용',
+    'api_feature1': '월 10,000 회 API 호출',
+    'api_feature2': '전체 문서',
+    'api_feature3': '기술 지원',
+    'features_title': '✨ 주요 기능',
+    'feature_tech_title': '📊 기술적 분석',
+    'feature_tech_desc': '29+ 지표: RSI, MACD, 볼린저 밴드, 이치모쿠',
+    'feature_sentiment_title': '📰 심리 분석',
+    'feature_sentiment_desc': '실시간 암호화폐 뉴스 및 소셜 미디어 심리',
+    'feature_onchain_title': '🔗 온체인 데이터',
+    'feature_onchain_desc': 'DeFi TVL, 대량 이체, 고래 활동 추적',
+    'feature_payment_title': '💰 x402 결제',
+    'feature_payment_desc': 'Base 체인 마이크로페이먼트, 등록 불필요, 즉시 액세스',
+    'api_docs_title': '📚 API 문서',
+    'api_docs_desc': '개발자는 API 를 통해 서비스를 통합할 수 있습니다',
+    'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+    'blockchain_demo': '⛓️ 블록체인 검증 데모',
+    'disclaimer': '⚠️ 이는 정보 제공 목적으로만 사용되며 투자 조언이 아닙니다. 암호화폐 거래는 높은 위험이 있습니다.',
+    'payment_created': '✅ 결제 요청이 생성되었습니다',
+    'payment_success': '✅ 결제 성공! 이제 투자 조언을 받을 수 있습니다',
+    'payment_failed': '❌ 실패: ',
+    'verify_failed': '❌ 검증 실패: ',
+    'advice_failed': '❌ 조언 받기 실패: ',
+    'input_tx_required': '트랜잭션 해시를 입력하세요',
+    'language': '🌐 언어',
+    'select_coin': '암호화폐 선택',
+    'btc': '비트코인 (BTC)',
+    'eth': '이더리움 (ETH)',
+    'sol': '솔라나 (SOL)',
+    'bnb': 'BNB',
+    'xrp': '리플 (XRP)',
+    'ada': '카드노 (ADA)'
+  },
+  
+  'ja-JP': {
+    'title': 'DeFi AI アドバイザー - The Synthesis Hackathon 2026',
+    'subtitle': 'AI 搭載の暗号通貨投資アドバイザリーシステム',
+    'hackathon_badge': '🏆 The Synthesis Hackathon 2026 エントリー',
+    'tech_badge': '⛓️ Powered by x402 + Base',
+    'creator': '👨‍💻 Created by',
+    'twitter_handle': '🐦 X: @sebo_luo',
+    'demo_title': '🎯 ライブデモ',
+    'demo_desc': 'x402 マイクロペイメントで AI 投資アドバイス',
+    'step1': 'ステップ 1: 暗号通貨を選択',
+    'step2': 'ステップ 2: $0.50 USDC を支払う',
+    'step3': 'ステップ 3: 投資アドバイスを受け取る',
+    'pay_btn': '💳 支払いリクエストを作成',
+    'pay_amount': '金額:',
+    'pay_address': '支払いアドレス:',
+    'pay_id': '支払い ID:',
+    'demo_mode_title': '💡 デモモード',
+    'demo_mode_desc': 'ハッカソンのデモのため、シミュレートされた支払いを使用:',
+    'demo_mode_step1': '下のサンプルトランザクションハッシュをコピー（Base チェーン）',
+    'demo_mode_step2': '入力フィールドに貼り付け',
+    'demo_mode_step3': '"支払いを確認"をクリックして完全な体験',
+    'demo_tx_label': '例:',
+    'tx_placeholder': 'トランザクションハッシュを入力 (0x プレフィックス、66 文字)',
+    'verify_btn': '✅ 支払いを確認',
+    'advice_btn': '📊 AI 投資アドバイスを受け取る',
+    'loading': '市場データを分析中...',
+    'pricing_title': '💰 価格プラン',
+    'single_title': '単発相談',
+    'single_desc': 'たまに使うユーザー向け',
+    'single_feature1': '投資質問 1 回',
+    'single_feature2': 'テクニカル分析',
+    'single_feature3': '市場センチメント',
+    'per_time': '/回',
+    'daypass_title': '🔥 デイパス',
+    'daypass_desc': 'デイトレーダー向け',
+    'daypass_feature1': '24 時間無制限相談',
+    'daypass_feature2': '優先サポート',
+    'daypass_feature3': 'リアルタイムアラート',
+    'per_day': '/日',
+    'monthly_title': '月額サブスクリプション',
+    'monthly_desc': '長期投資家向け',
+    'monthly_feature1': '30 日間無制限',
+    'monthly_feature2': '優先サポート',
+    'monthly_feature3': 'カスタムレポート',
+    'per_month': '/月',
+    'api_title': 'API アクセス',
+    'api_desc': '開発者向け',
+    'api_feature1': '月 10,000 回 API 呼び出し',
+    'api_feature2': '完全なドキュメント',
+    'api_feature3': '技術サポート',
+    'features_title': '✨ 主要機能',
+    'feature_tech_title': '📊 テクニカル分析',
+    'feature_tech_desc': '29+ 指標：RSI、MACD、ボリンジャーバンド、一目均衡表',
+    'feature_sentiment_title': '📰 センチメント分析',
+    'feature_sentiment_desc': 'リアルタイム暗号通貨ニュースとソーシャルメディアセンチメント',
+    'feature_onchain_title': '🔗 オンチェーンデータ',
+    'feature_onchain_desc': 'DeFi TVL、大口送金、クジラ活動を追跡',
+    'feature_payment_title': '💰 x402 支払い',
+    'feature_payment_desc': 'Base チェーンマイクロペイメント、登録不要、即時アクセス',
+    'api_docs_title': '📚 API ドキュメント',
+    'api_docs_desc': '開発者は API を介してサービスを統合できます',
+    'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+    'blockchain_demo': '⛓️ ブロックチェーン検証デモ',
+    'disclaimer': '⚠️ これは情報提供のみを目的としており、投資アドバイスではありません。暗号通貨取引は高いリスクを伴います。',
+    'payment_created': '✅ 支払いリクエストが作成されました',
+    'payment_success': '✅ 支払い成功！投資アドバイスを受け取れます',
+    'payment_failed': '❌ 失敗：',
+    'verify_failed': '❌ 検証失敗：',
+    'advice_failed': '❌ アドバイス取得失敗：',
+    'input_tx_required': 'トランザクションハッシュを入力してください',
+    'language': '🌐 言語',
+    'select_coin': '暗号通貨を選択',
+    'btc': 'ビットコイン (BTC)',
+    'eth': 'イーサリアム (ETH)',
+    'sol': 'ソラナ (SOL)',
+    'bnb': 'BNB',
+    'xrp': 'リップル (XRP)',
+    'ada': 'カルダノ (ADA)'
+  },
+  
+  'fr-FR': {
+    'title': 'DeFi AI Conseiller - The Synthesis Hackathon 2026',
+    'subtitle': 'Système de conseil en investissement crypto alimenté par l\'IA',
+    'hackathon_badge': '🏆 Participation à The Synthesis Hackathon 2026',
+    'tech_badge': '⛓️ Powered by x402 + Base',
+    'creator': '👨‍💻 Created by',
+    'twitter_handle': '🐦 X: @sebo_luo',
+    'demo_title': '🎯 Démo en Direct',
+    'demo_desc': 'Obtenez des conseils d\'investissement IA avec le micro-paiement x402',
+    'step1': 'Étape 1: Sélectionnez la cryptomonnaie',
+    'step2': 'Étape 2: Payez $0.50 USDC',
+    'step3': 'Étape 3: Obtenez un conseil d\'investissement',
+    'pay_btn': '💳 Créer une demande de paiement',
+    'pay_amount': 'Montant:',
+    'pay_address': 'Adresse de paiement:',
+    'pay_id': 'ID de paiement:',
+    'demo_mode_title': '💡 Mode Démo',
+    'demo_mode_desc': 'Ceci est une démo hackathon utilisant un paiement simulé:',
+    'demo_mode_step1': 'Copiez le hachage de transaction exemple ci-dessous (Base chain)',
+    'demo_mode_step2': 'Collez-le dans le champ de saisie',
+    'demo_mode_step3': 'Cliquez sur "Vérifier le paiement" pour vivre l\'expérience complète',
+    'demo_tx_label': 'Exemple:',
+    'tx_placeholder': 'Entrez le hachage de transaction (préfixe 0x, 66 caractères)',
+    'verify_btn': '✅ Vérifier le paiement',
+    'advice_btn': '📊 Obtenir un conseil d\'investissement IA',
+    'loading': 'Analyse des données du marché...',
+    'pricing_title': '💰 Tarifs',
+    'single_title': 'Consultation Unique',
+    'single_desc': 'Pour les utilisateurs occasionnels',
+    'single_feature1': 'Une question d\'investissement',
+    'single_feature2': 'Analyse technique',
+    'single_feature3': 'Sentiment du marché',
+    'per_time': '/fois',
+    'daypass_title': '🔥 Pass Journée',
+    'daypass_desc': 'Pour les day traders',
+    'daypass_feature1': 'Consultations illimitées 24h',
+    'daypass_feature2': 'Support prioritaire',
+    'daypass_feature3': 'Alertes en temps réel',
+    'per_day': '/jour',
+    'monthly_title': 'Abonnement Mensuel',
+    'monthly_desc': 'Pour les investisseurs à long terme',
+    'monthly_feature1': '30 jours illimités',
+    'monthly_feature2': 'Support prioritaire',
+    'monthly_feature3': 'Rapports personnalisés',
+    'per_month': '/mois',
+    'api_title': 'Accès API',
+    'api_desc': 'Pour les développeurs',
+    'api_feature1': '10 000 appels API/mois',
+    'api_feature2': 'Documentation complète',
+    'api_feature3': 'Support technique',
+    'features_title': '✨ Fonctionnalités',
+    'feature_tech_title': '📊 Analyse Technique',
+    'feature_tech_desc': '29+ indicateurs: RSI, MACD, Bandes de Bollinger, Ichimoku',
+    'feature_sentiment_title': '📰 Analyse de Sentiment',
+    'feature_sentiment_desc': 'Actualités crypto et sentiment des réseaux sociaux en temps réel',
+    'feature_onchain_title': '🔗 Données On-Chain',
+    'feature_onchain_desc': 'Suivez le TVL DeFi, les gros transferts, l\'activité des baleines',
+    'feature_payment_title': '💰 Paiement x402',
+    'feature_payment_desc': 'Micro-paiement Base chain, sans inscription, accès instantané',
+    'api_docs_title': '📚 Documentation API',
+    'api_docs_desc': 'Les développeurs peuvent intégrer notre service via API',
+    'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+    'blockchain_demo': '⛓️ Démo de Vérification Blockchain',
+    'disclaimer': '⚠️ Ceci est à titre informatif uniquement, pas un conseil en investissement. Le trading de cryptomonnaies comporte des risques élevés.',
+    'payment_created': '✅ Demande de paiement créée',
+    'payment_success': '✅ Paiement réussi! Vous pouvez maintenant obtenir des conseils',
+    'payment_failed': '❌ Échec: ',
+    'verify_failed': '❌ Vérification échouée: ',
+    'advice_failed': '❌ Échec de l\'obtention du conseil: ',
+    'input_tx_required': 'Veuillez entrer le hachage de transaction',
+    'language': '🌐 Langue',
+    'select_coin': 'Sélectionnez la cryptomonnaie',
+    'btc': 'Bitcoin (BTC)',
+    'eth': 'Ethereum (ETH)',
+    'sol': 'Solana (SOL)',
+    'bnb': 'BNB',
+    'xrp': 'XRP',
+    'ada': 'Cardano (ADA)'
+  }
+};
+
+// 当前语言
+let currentLang = 'zh-CN';
+
+// 设置语言
+function setLanguage(lang) {
+  if (!translations[lang]) {
+    console.warn('Language not supported:', lang);
+    lang = 'zh-CN';
+  }
+  
+  currentLang = lang;
+  localStorage.setItem('preferred_lang', lang);
+  updatePageLanguage();
+}
+
+// 更新页面语言
+function updatePageLanguage() {
+  const t = translations[currentLang];
+  if (!t) return;
+  
+  // 更新所有带 data-i18n 属性的元素
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = t[key];
+      } else {
+        el.textContent = t[key];
+      }
+    }
+  });
+  
+  // 更新 data-i18n-btn 属性
+  document.querySelectorAll('[data-i18n-btn]').forEach(el => {
+    const key = el.getAttribute('data-i18n-btn');
+    if (t[key]) {
+      el.textContent = t[key];
+    }
+  });
+  
+  // 更新 data-i18n-placeholder 属性
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key]) {
+      el.placeholder = t[key];
+    }
+  });
+  
+  // 更新 title
+  if (t.title) {
+    document.title = t.title;
+  }
+  
+  // 更新 html lang 属性
+  document.documentElement.lang = currentLang;
+  
+  // 更新语言选择器
+  const langSelect = document.getElementById('languageSelector');
+  if (langSelect) {
+    langSelect.value = currentLang;
+  }
+}
+
+// 初始化语言
+function initLanguage() {
+  // 尝试从 localStorage 获取
+  const saved = localStorage.getItem('preferred_lang');
+  if (saved && translations[saved]) {
+    currentLang = saved;
+  } else {
+    // 检测浏览器语言
+    const browserLang = navigator.language || navigator.userLanguage;
+    const supported = ['zh-CN', 'en-US', 'ko-KR', 'ja-JP', 'fr-FR'];
+    
+    for (const lang of supported) {
+      if (browserLang.startsWith(lang.split('-')[0])) {
+        currentLang = lang;
+        break;
+      }
+    }
+  }
+  
+  updatePageLanguage();
+}
+
+// 页面加载时初始化
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLanguage);
+  } else {
+    initLanguage();
+  }
+}
+
+// 导出
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { translations, setLanguage, currentLang };
+}

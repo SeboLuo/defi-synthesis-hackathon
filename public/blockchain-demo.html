@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="blockchain_demo_title">区块链验证演示 - DeFi 智能投顾</title>
+  <script src="/i18n.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container { max-width: 1000px; margin: 0 auto; }
+    header {
+      text-align: center;
+      color: white;
+      padding: 30px 0;
+      position: relative;
+    }
+    header h1 { font-size: 2em; margin-bottom: 10px; }
+    header p { font-size: 1.1em; opacity: 0.95; }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .creator-info {
+      text-align: left;
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+    .creator-info a { color: white; text-decoration: underline; }
+    .lang-selector select {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.5);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+    .lang-selector select option { background: #667eea; color: white; }
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .card h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .info-box {
+      background: #f8f9fa;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+    .info-box h3 { color: #667eea; margin-bottom: 10px; }
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      margin: 5px;
+      transition: transform 0.2s;
+    }
+    .btn:hover { transform: scale(1.05); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .result-box {
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      display: none;
+    }
+    .result-box.show { display: block; }
+    .result-box pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-size: 0.85em;
+    }
+    .status {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      margin: 5px 5px 5px 0;
+    }
+    .status.success { background: #d4edda; color: #155724; }
+    .status.info { background: #d1ecf1; color: #0c5460; }
+    .status.warning { background: #fff3cd; color: #856404; }
+    .status.error { background: #f8d7da; color: #721c24; }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .feature {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      border-top: 3px solid #667eea;
+    }
+    .feature h4 { color: #667eea; margin-bottom: 10px; }
+    input {
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1em;
+      width: 100%;
+      margin: 10px 0;
+    }
+    .mode-switch {
+      background: #fff3cd;
+      border: 2px solid #ffc107;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .mode-switch h3 { color: #856404; margin-bottom: 10px; }
+    a { color: #667eea; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer {
+      text-align: center;
+      color: white;
+      padding: 30px 0;
+      opacity: 0.8;
+    }
+    footer a { color: white; margin: 0 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <div class="creator-info">
+          <p>👨‍💻 <span data-i18n="created_by">Created by</span> <strong>宝哥 (Sebo)</strong></p>
+          <p>🐦 <a href="https://twitter.com/sebo_luo" target="_blank">@sebo_luo</a></p>
+        </div>
+        <div class="lang-selector">
+          <select id="languageSelector" onchange="setLanguage(this.value)">
+            <option value="zh-CN">🇨🇳 中文</option>
+            <option value="en-US">🇺🇸 English</option>
+            <option value="ko-KR">🇰🇷 한국어</option>
+            <option value="ja-JP">🇯🇵 日本語</option>
+            <option value="fr-FR">🇫🇷 Français</option>
+          </select>
+        </div>
+      </div>
+      <h1 data-i18n="page_title">⛓️ 区块链验证演示</h1>
+      <p data-i18n="page_subtitle">展示 x402 + Base 链真实交互</p>
+    </header>
+
+    <div class="card">
+      <h2 data-i18n="tech_intro_title">📋 技术实现说明</h2>
+      <div class="info-box">
+        <h3 data-i18n="current_status_title">🎯 当前状态</h3>
+        <p><strong data-i18n="demo_mode_label">演示模式：</strong> <span data-i18n="demo_mode_desc">为了黑客松演示流畅性，默认使用模拟支付验证</span></p>
+        <p><strong data-i18n="production_mode_label">生产模式：</strong> <span data-i18n="production_mode_desc">代码已完整实现 Base 链 RPC 验证，可立即切换</span></p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature">
+          <h4 data-i18n="feature_rpc_title">🔗 Base 链 RPC</h4>
+          <p data-i18n="feature_rpc_desc">集成 Base Mainnet 官方 RPC 节点</p>
+          <p style="margin-top: 10px;"><code>https://mainnet.base.org</code></p>
+        </div>
+        <div class="feature">
+          <h4 data-i18n="feature_verify_title">📝 交易验证</h4>
+          <p data-i18n="feature_verify_desc">调用 eth_getTransactionByHash 验证交易存在性</p>
+        </div>
+        <div class="feature">
+          <h4 data-i18n="feature_confirm_title">✅ 确认数检查</h4>
+          <p data-i18n="feature_confirm_desc">验证交易确认数（建议 12 个确认）</p>
+        </div>
+        <div class="feature">
+          <h4 data-i18n="feature_address_title">💰 支付地址</h4>
+          <p data-i18n="feature_address_desc">验证交易接收地址是否匹配支付合约</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="live_test_title">🧪 实时区块链验证测试</h2>
+      <p style="color: #666; margin-bottom: 20px;" data-i18n="live_test_desc">直接调用 Base 链 RPC 节点验证交易</p>
+
+      <div class="mode-switch">
+        <h3 data-i18n="warning_title">⚠️ 注意</h3>
+        <p data-i18n="warning_desc">以下测试会<strong>真实调用 Base 链 RPC 节点</strong>，验证区块链上的交易数据。</p>
+        <p style="margin-top: 10px;" data-i18n="warning_tip">你可以输入任何 Base 链上的交易哈希进行测试。</p>
+      </div>
+
+      <label data-i18n="tx_hash_label"><strong>输入 Base 链交易哈希:</strong></label>
+      <input type="text" id="txHash" value="0x11e36400ac8b96a6e9c0a7a85e1af5d498699840c2e492e6b5f2b1ec9fc8de19" placeholder="0x 开头的交易哈希">
+      
+      <div style="margin: 15px 0;">
+        <button class="btn" onclick="verifyOnChain()" data-i18n="verify_btn">🔍 验证区块链交易</button>
+        <button class="btn" onclick="loadExample()" data-i18n="load_example_btn">📥 加载示例交易</button>
+        <button class="btn" onclick="window.location.href='/'" data-i18n="back_home_btn">🏠 返回首页</button>
+      </div>
+
+      <div id="result" class="result-box">
+        <h3 style="margin-bottom: 15px;" data-i18n="result_title">验证结果:</h3>
+        <div id="resultContent"></div>
+      </div>
+    </div>
+
+    <footer>
+      <p data-i18n="footer_built">🏗️ Built with ❤️ for The Synthesis Hackathon 2026</p>
+      <p style="margin-top: 10px;">
+        <a href="/" data-i18n="back_home">🏠 首页</a> •
+        <a href="https://basescan.org" target="_blank">BaseScan</a> •
+        <a href="https://github.com" target="_blank">GitHub</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // 多语言翻译
+    const blockchainI18n = {
+      'zh-CN': {
+        'page_title': '区块链验证演示 - DeFi 智能投顾',
+        'page_subtitle': '展示 x402 + Base 链真实交互',
+        'created_by': 'Created by',
+        'tech_intro_title': '📋 技术实现说明',
+        'current_status_title': '🎯 当前状态',
+        'demo_mode_label': '演示模式：',
+        'demo_mode_desc': '为了黑客松演示流畅性，默认使用模拟支付验证',
+        'production_mode_label': '生产模式：',
+        'production_mode_desc': '代码已完整实现 Base 链 RPC 验证，可立即切换',
+        'feature_rpc_title': '🔗 Base 链 RPC',
+        'feature_rpc_desc': '集成 Base Mainnet 官方 RPC 节点',
+        'feature_verify_title': '📝 交易验证',
+        'feature_verify_desc': '调用 eth_getTransactionByHash 验证交易存在性',
+        'feature_confirm_title': '✅ 确认数检查',
+        'feature_confirm_desc': '验证交易确认数（建议 12 个确认）',
+        'feature_address_title': '💰 支付地址',
+        'feature_address_desc': '验证交易接收地址是否匹配支付合约',
+        'live_test_title': '🧪 实时区块链验证测试',
+        'live_test_desc': '直接调用 Base 链 RPC 节点验证交易',
+        'warning_title': '⚠️ 注意',
+        'warning_desc': '以下测试会真实调用 Base 链 RPC 节点，验证区块链上的交易数据。',
+        'warning_tip': '你可以输入任何 Base 链上的交易哈希进行测试。',
+        'tx_hash_label': '输入 Base 链交易哈希:',
+        'verify_btn': '🔍 验证区块链交易',
+        'load_example_btn': '📥 加载示例交易',
+        'back_home_btn': '🏠 返回首页',
+        'result_title': '验证结果:',
+        'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+        'back_home': '🏠 首页'
+      },
+      'en-US': {
+        'page_title': 'Blockchain Verification Demo - DeFi AI Advisor',
+        'page_subtitle': 'Demonstrating x402 + Base Chain Real Interaction',
+        'created_by': 'Created by',
+        'tech_intro_title': '📋 Technical Implementation',
+        'current_status_title': '🎯 Current Status',
+        'demo_mode_label': 'Demo Mode:',
+        'demo_mode_desc': 'Using simulated payment verification for smooth hackathon demo',
+        'production_mode_label': 'Production Mode:',
+        'production_mode_desc': 'Base chain RPC verification fully implemented, ready to switch',
+        'feature_rpc_title': '🔗 Base Chain RPC',
+        'feature_rpc_desc': 'Integrated with Base Mainnet official RPC node',
+        'feature_verify_title': '📝 Transaction Verification',
+        'feature_verify_desc': 'Call eth_getTransactionByHash to verify transaction existence',
+        'feature_confirm_title': '✅ Confirmation Check',
+        'feature_confirm_desc': 'Verify transaction confirmations (12 recommended)',
+        'feature_address_title': '💰 Payment Address',
+        'feature_address_desc': 'Verify transaction recipient matches payment contract',
+        'live_test_title': '🧪 Live Blockchain Test',
+        'live_test_desc': 'Directly call Base chain RPC node to verify transactions',
+        'warning_title': '⚠️ Note',
+        'warning_desc': 'This test will <strong>actually call Base chain RPC node</strong> to verify on-chain transaction data.',
+        'warning_tip': 'You can input any Base chain transaction hash to test.',
+        'tx_hash_label': 'Enter Base Chain Transaction Hash:',
+        'verify_btn': '🔍 Verify Blockchain Transaction',
+        'load_example_btn': '📥 Load Example Transaction',
+        'back_home_btn': '🏠 Back to Home',
+        'result_title': 'Verification Result:',
+        'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+        'back_home': '🏠 Home'
+      },
+      'ko-KR': {
+        'page_title': '블록체인 검증 데모',
+        'page_subtitle': 'x402 + Base 체인 실제 상호작용 시연',
+        'created_by': 'Created by',
+        'tech_intro_title': '📋 기술 구현 설명',
+        'current_status_title': '🎯 현재 상태',
+        'demo_mode_label': '데모 모드:',
+        'demo_mode_desc': '해커톤 데모의 원활함을 위해 시뮬레이션 결제 사용',
+        'production_mode_label': '프로덕션 모드:',
+        'production_mode_desc': 'Base 체인 RPC 검증 완전 구현, 즉시 전환 가능',
+        'live_test_title': '🧪 실시간 블록체인 테스트',
+        'live_test_desc': 'Base 체인 RPC 노드 직접 호출하여 거래 검증',
+        'warning_title': '⚠️ 주의',
+        'warning_desc': '이 테스트는 Base 체인 RPC 노드를 실제로 호출합니다.',
+        'tx_hash_label': 'Base 체인 거래 해시 입력:',
+        'verify_btn': '🔍 블록체인 거래 검증',
+        'back_home_btn': '🏠 홈으로',
+        'result_title': '검증 결과:',
+        'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+        'back_home': '🏠 홈'
+      },
+      'ja-JP': {
+        'page_title': 'ブロックチェーン検証デモ',
+        'page_subtitle': 'x402 + Base チェーン実際の相互作用デモ',
+        'created_by': 'Created by',
+        'tech_intro_title': '📋 技術実装説明',
+        'current_status_title': '🎯 現在の状態',
+        'demo_mode_label': 'デモモード:',
+        'demo_mode_desc': 'ハッカソンのデモのため、シミュレートされた支払いを使用',
+        'production_mode_label': '本番モード:',
+        'production_mode_desc': 'Base チェーン RPC 検証完全実装、すぐに切り替え可能',
+        'live_test_title': '🧪 リアルタイムブロックチェーンテスト',
+        'live_test_desc': 'Base チェーン RPC ノードを直接呼び出してトランザクションを検証',
+        'warning_title': '⚠️ 注意',
+        'warning_desc': 'このテストは Base チェーン RPC ノードを実際に呼び出します。',
+        'tx_hash_label': 'Base チェーントランザクションハッシュを入力:',
+        'verify_btn': '🔍 ブロックチェーン取引を検証',
+        'back_home_btn': '🏠 ホームに戻る',
+        'result_title': '検証結果:',
+        'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+        'back_home': '🏠 ホーム'
+      },
+      'fr-FR': {
+        'page_title': 'Démo de Vérification Blockchain',
+        'page_subtitle': 'Démonstration de l\'interaction réelle x402 + Base',
+        'created_by': 'Créé par',
+        'tech_intro_title': '📋 Explication Technique',
+        'current_status_title': '🎯 État Actuel',
+        'demo_mode_label': 'Mode Démo:',
+        'demo_mode_desc': 'Utilise la vérification de paiement simulée pour une démo fluide',
+        'production_mode_label': 'Mode Production:',
+        'production_mode_desc': 'Vérification RPC Base chaîne entièrement implémentée',
+        'live_test_title': '🧪 Test Blockchain en Direct',
+        'live_test_desc': 'Appel direct au nœud RPC Base pour vérifier les transactions',
+        'warning_title': '⚠️ Attention',
+        'warning_desc': 'Ce test va <strong>réellement appeler le nœud RPC Base</strong>.',
+        'tx_hash_label': 'Entrez le hachage de transaction Base:',
+        'verify_btn': '🔍 Vérifier la Transaction',
+        'back_home_btn': '🏠 Retour à l\'accueil',
+        'result_title': 'Résultat de la Vérification:',
+        'footer_built': '🏗️ Built with ❤️ for The Synthesis Hackathon 2026',
+        'back_home': '🏠 Accueil'
+      }
+    };
+
+    // 扩展 setLanguage 函数
+    const originalSetLanguage = window.setLanguage;
+    window.setLanguage = function(lang) {
+      if (originalSetLanguage) originalSetLanguage(lang);
+      
+      const t = blockchainI18n[lang] || blockchainI18n['zh-CN'];
+      if (!t) return;
+      
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+          if (el.tagName === 'INPUT') {
+            el.placeholder = t[key];
+          } else {
+            el.innerHTML = t[key];
+          }
+        }
+      });
+      
+      if (t.page_title) {
+        document.title = t.page_title;
+      }
+    };
+    
+    async function verifyOnChain() {
+      const txHash = document.getElementById('txHash').value.trim();
+      const resultDiv = document.getElementById('result');
+      const resultContent = document.getElementById('resultContent');
+      
+      if (!txHash || !txHash.startsWith('0x') || txHash.length !== 66) {
+        alert('请输入有效的交易哈希（0x 开头，66 位字符）');
+        return;
+      }
+
+      resultDiv.className = 'result-box show';
+      resultContent.innerHTML = `
+        <div class="status info">🔄 正在调用 Base 链 RPC 节点...</div>
+        <p style="margin-top: 15px;">RPC 端点：<code>https://mainnet.base.org</code></p>
+        <p>方法：<code>eth_getTransactionByHash</code></p>
+      `;
+
+      try {
+        const response = await fetch('https://mainnet.base.org', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'eth_getTransactionByHash',
+            params: [txHash],
+            id: 1
+          })
+        });
+
+        const data = await response.json();
+        
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
+
+        if (!data.result) {
+          resultContent.innerHTML = `
+            <div class="status warning">⚠️ 交易未找到</div>
+            <p style="margin-top: 15px;">该交易哈希在 Base 链上不存在，可能是：</p>
+            <ul style="margin: 10px 0 0 20px;">
+              <li>交易哈希输入错误</li>
+              <li>交易尚未被打包</li>
+              <li>该交易在其他链上（如 Ethereum Mainnet）</li>
+            </ul>
+            <p style="margin-top: 15px;">请检查交易哈希或访问 <a href="https://basescan.org" target="_blank">BaseScan</a> 查询。</p>
+          `;
+          return;
+        }
+
+        const tx = data.result;
+        
+        const latestBlockResponse = await fetch('https://mainnet.base.org', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'eth_blockNumber',
+            params: [],
+            id: 1
+          })
+        });
+        
+        const latestBlockData = await latestBlockResponse.json();
+        const latestBlock = parseInt(latestBlockData.result, 16);
+        const txBlock = parseInt(tx.blockNumber, 16);
+        const confirmations = latestBlock - txBlock;
+
+        const valueEth = (parseInt(tx.value, 16) / 1e18).toFixed(4);
+
+        resultContent.innerHTML = `
+          <div class="status success">✅ 交易验证成功！</div>
+          
+          <h3 style="margin-top: 20px;">交易详情:</h3>
+          <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+            <p><strong>交易哈希:</strong> <code style="word-break: break-all;">${tx.hash}</code></p>
+            <p><strong>区块号:</strong> ${txBlock.toLocaleString()}</p>
+            <p><strong>确认数:</strong> <span style="color: ${confirmations >= 12 ? 'green' : 'orange'}">${confirmations}</span> ${confirmations >= 12 ? '(✓ 安全)' : '(建议等待更多确认)'}</p>
+            <p><strong>发送方:</strong> <code>${tx.from}</code></p>
+            <p><strong>接收方:</strong> <code>${tx.to}</code></p>
+            <p><strong>交易金额:</strong> ${valueEth} ETH</p>
+          </div>
+
+          <div class="info-box" style="margin-top: 20px;">
+            <h3>🎯 这就是真实的区块链验证！</h3>
+            <p>以上数据<strong>直接从 Base 链 RPC 节点获取</strong>，证明了我们的系统具备真实的区块链交互能力。</p>
+            <p style="margin-top: 10px;">在生产模式下，支付验证会执行以上所有检查，确保交易真实有效。</p>
+          </div>
+        `;
+
+      } catch (error) {
+        resultContent.innerHTML = `
+          <div class="status error">❌ 验证失败</div>
+          <p style="margin-top: 15px;">错误信息：<code>${error.message}</code></p>
+        `;
+      }
+    }
+
+    function loadExample() {
+      const examples = [
+        '0x11e36400ac8b96a6e9c0a7a85e1af5d498699840c2e492e6b5f2b1ec9fc8de19'
+      ];
+      document.getElementById('txHash').value = examples[0];
+      alert('已加载示例交易哈希，点击"验证区块链交易"按钮进行测试！');
+    }
+  </script>
+</body>
+</html>
