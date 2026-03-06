@@ -1,0 +1,28 @@
+{
+  "name": "defi-advisor",
+  "version": "1.0.0",
+  "description": "AI 驱动的加密市场智能投顾，整合技术分析、市场情绪和链上数据",
+  "author": "宝哥 (Sebo) - @sebo_luo",
+  "repository": "https://github.com/SeboLuo/defi-synthesis-hackathon",
+  "license": "MIT",
+  "tags": ["defi", "crypto", "investment", "ai", "x402", "base"],
+  "capabilities": ["investment-advice", "price-query", "technical-analysis", "market-sentiment"],
+  "payment": {
+    "required": true,
+    "protocol": "x402",
+    "pricing": {
+      "singleConsultation": 0.50,
+      "dayPass": 5.00,
+      "monthlySubscription": 50.00,
+      "apiAccess": 100.00
+    },
+    "currency": "USDC"
+  },
+  "endpoints": {
+    "advice": "/api/advice/:coin",
+    "payment": "/api/payment/create",
+    "verify": "/api/payment/verify",
+    "price": "/api/price/:coin"
+  },
+  "base_url": "https://defi.gekankan.com"
+}
